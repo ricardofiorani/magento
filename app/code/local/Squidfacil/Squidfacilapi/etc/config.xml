@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+* @category   Squidfacil
+* @package    Squidfacil_Squidfacilapi
+* @author     ModuleCreator
+* @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
+-->
+<config>
+    <modules>
+        <Squidfacil_Squidfacilapi>
+            <version>0.1.0</version>
+        </Squidfacil_Squidfacilapi>
+    </modules>
+    <frontend>
+        <routers>
+            <squidfacilapi>
+                <use>standard</use>
+                <args>
+                    <module>Squidfacil_Squidfacilapi</module>
+                    <frontName>squidfacilapi</frontName>
+                </args>
+            </squidfacilapi>
+        </routers>
+        <layout>
+            <updates>
+                <squidfacilapi>
+                    <file>squidfacilapi.xml</file>
+                </squidfacilapi>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <squidfacilapi>
+                <use>admin</use>
+                <args>
+                    <module>Squidfacil_Squidfacilapi</module>
+                    <frontName>squidfacilapi</frontName>
+                </args>
+            </squidfacilapi>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <squidfacilapi module="squidfacilapi">
+                <title>Squid Fácil</title>
+                <sort_order>99999</sort_order>               
+                <children>
+                    <items module="squidfacilapi">
+                        <title>Listar Produtos</title>
+                        <sort_order>0</sort_order>
+                        <action>squidfacilapi/adminhtml_squidfacilapi</action>
+                    </items>
+                </children>
+            </squidfacilapi>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <Squidfacil_Squidfacilapi>
+                            <title>Squidfacilapi Module</title>
+                            <sort_order>10</sort_order>
+                        </Squidfacil_Squidfacilapi>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <squidfacilapi>
+                    <file>squidfacilapi.xml</file>
+                </squidfacilapi>
+            </updates>
+        </layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <squidfacilapi>
+                <class>Squidfacil_Squidfacilapi_Model</class>
+                <resourceModel>squidfacilapi_mysql4</resourceModel>
+            </squidfacilapi>
+        </models>
+        <resources>
+            <squidfacilapi_setup>
+                <setup>
+                    <module>Squidfacil_Squidfacilapi</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </squidfacilapi_setup>
+            <squidfacilapi_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </squidfacilapi_write>
+            <squidfacilapi_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </squidfacilapi_read>
+        </resources>
+        <blocks>
+            <squidfacilapi>
+                <class>Squidfacil_Squidfacilapi_Block</class>
+            </squidfacilapi>
+        </blocks>
+        <helpers>
+            <squidfacilapi>
+                <class>Squidfacil_Squidfacilapi_Helper</class>
+            </squidfacilapi>
+        </helpers>
+    </global>
+</config>
