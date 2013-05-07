@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <squidfacilapi_adminhtml_squidfacilapi_index>
+        <reference name="content">
+            <block template="squidfacil/list.phtml" type="squidfacilapi/adminhtml_squidfacilapi" name="squidfacilapi" />
+        </reference>
+    </squidfacilapi_adminhtml_squidfacilapi_index>
+    <squidfacilapi_adminhtml_squidfacilapi_import>
+        <reference name="content">
+            <block template="squidfacil/import.phtml" type="squidfacilapi/adminhtml_import" name="import" />
+        </reference>
+    </squidfacilapi_adminhtml_squidfacilapi_import>
+</layout>
