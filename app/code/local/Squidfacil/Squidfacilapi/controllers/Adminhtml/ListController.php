@@ -1,10 +1,10 @@
 <?php
 
-class Squidfacil_Squidfacilapi_Adminhtml_SquidfacilapiController extends Mage_Adminhtml_Controller_Action {
-
+class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_Controller_Action {
+    
     protected function _initAction() {
         $this->loadLayout()
-                ->_setActiveMenu('squidfacilapi/items')
+                ->_setActiveMenu('squidfacilapi/list')
                 ->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 
         return $this;
@@ -16,23 +16,6 @@ class Squidfacil_Squidfacilapi_Adminhtml_SquidfacilapiController extends Mage_Ad
     }
 
     public function import_Action() {
-        $sku = $this->getRequest()->getParam('sku');
-        $model = Mage::getModel('squidfacilapi/products');
-        $item = $model->getItemByColumnValue('sku', $sku);
-//        $product = $this->_initProduct();
-//
-//        if ($productId && !$product->getId()) {
-//            $this->_getSession()->addError(Mage::helper('catalog')->__('This product no longer exists.'));
-//            $this->_redirect('*/*/');
-//            return;
-//        }
-        
-        $this->_title($item->title);
-        $this->_initAction()
-                ->renderLayout();
-    }
-
-    public function importAction() {
         $sku = $this->getRequest()->getParam('sku');
         $model = Mage::getModel('squidfacilapi/products');
         $item = $model->getItemByColumnValue('sku', $sku);

@@ -1,4 +1,4 @@
-Squid Fácil Magento Webservice API
+Squid Fácil Magento API
 =======
 
 Introduction

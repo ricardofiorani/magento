@@ -51,8 +51,13 @@
                     <items module="squidfacilapi">
                         <title>Listar Produtos</title>
                         <sort_order>0</sort_order>
-                        <action>squidfacilapi/adminhtml_squidfacilapi</action>
+                        <action>squidfacilapi/adminhtml_list</action>
                     </items>
+                    <config module="squidfacilapi">
+                        <title>Configurações</title>
+                        <sort_order>1</sort_order>
+                        <action>squidfacilapi/adminhtml_config</action>
+                    </config>
                 </children>
             </squidfacilapi>
         </menu>
@@ -83,7 +88,7 @@
         <models>
             <squidfacilapi>
                 <class>Squidfacil_Squidfacilapi_Model</class>
-                <resourceModel>squidfacilapi_mysql4</resourceModel>
+                <resourceModel></resourceModel>
             </squidfacilapi>
         </models>
         <resources>
