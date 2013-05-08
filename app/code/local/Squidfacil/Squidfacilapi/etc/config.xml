@@ -49,14 +49,14 @@
                 <sort_order>99999</sort_order>               
                 <children>
                     <items module="squidfacilapi">
-                        <title>Listar Produtos</title>
+                        <title>List Products</title>
                         <sort_order>0</sort_order>
                         <action>squidfacilapi/adminhtml_list</action>
                     </items>
                     <config module="squidfacilapi">
-                        <title>Configurações</title>
+                        <title>Settings</title>
                         <sort_order>1</sort_order>
-                        <action>squidfacilapi/adminhtml_config</action>
+                        <action>adminhtml/system_config/edit/section/squidfacil</action>
                     </config>
                 </children>
             </squidfacilapi>
@@ -72,6 +72,17 @@
                             <title>Squidfacilapi Module</title>
                             <sort_order>10</sort_order>
                         </Squidfacil_Squidfacilapi>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <squidfacil>
+                                            <title>Inchoo - All</title>
+                                        </squidfacil>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
                     </children>
                 </admin>
             </resources>

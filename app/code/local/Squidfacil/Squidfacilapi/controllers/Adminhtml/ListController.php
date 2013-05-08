@@ -11,6 +11,11 @@ class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_C
     }
 
     public function indexAction() {
+        $email = Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_email',Mage::app()->getStore());
+        $token = Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_token',Mage::app()->getStore());
+        if(is_null($email) || is_null($token)){
+            $this->_redirect('adminhtml/system_config/edit/section/squidfacil');
+        }
         $this->_initAction()
                 ->renderLayout();
     }
@@ -37,6 +42,7 @@ class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_C
         }
          * 
          */
+        $this->_getSession()->addError("Not yet implemented");
         $this->_redirect('*/*/index');
     }
 
@@ -63,6 +69,7 @@ class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_C
         }
          * 
          */
+        $this->_getSession()->addError("Not yet implemented");
         $this->_redirect('*/*/index');
     }
 

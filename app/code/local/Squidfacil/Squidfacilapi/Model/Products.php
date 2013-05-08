@@ -5,8 +5,8 @@ class Squidfacil_Squidfacilapi_Model_Products extends Varien_Data_Collection
     
     public function __construct(){
         $parametros = array(
-            'email' => "fhcs@live.com",
-            'token' => "56663679212448816136724459560760",
+            'email' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_email',Mage::app()->getStore()),
+            'token' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_token',Mage::app()->getStore()),
 //            'limite' => $pagesize,
 //            'pagina' => $pagenumber
         );
@@ -24,7 +24,9 @@ class Squidfacil_Squidfacilapi_Model_Products extends Varien_Data_Collection
         $root = $xml->children();
         $produtos = $root[1];
         $c = 0;
-        
+        if((int)$root[0]->codigo != 0){
+            throw new Exception("Invalid Credentials");
+        }
         $this->products = $produtos;
     }
     

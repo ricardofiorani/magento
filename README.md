@@ -10,4 +10,12 @@ information updated.
 
 Installation
 ------------
-Copy this app folder over your project
+1. Copy this app folder over your project
+2. There will be a new tab in your admin backend
+3. Fill the configuration with your email and token
+
+To-do List
+----------
+1. Freight calculator webservice integration
+2. Mass action for import
+3. Order webservice integration
