@@ -15,49 +15,6 @@ class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_C
                 ->renderLayout();
     }
 
-    public function import_Action() {
-        $sku = $this->getRequest()->getParam('sku');
-        $model = Mage::getModel('squidfacilapi/products');
-        $item = $model->getItemByColumnValue('sku', $sku);
-
-        $api = new Mage_Catalog_Model_Product_Api();
-
-        $attribute_api = new Mage_Catalog_Model_Product_Attribute_Set_Api();
-        $attribute_sets = $attribute_api->items();
-
-        $productData = array();
-        $productData['website_ids'] = array(1);
-
-        $productData['status'] = 1;
-
-        $productData['name'] = $item->title;
-        $productData['description'] = $item->description;
-        $productData['short_description'] = $item->short_description;
-
-        $productData['price'] = $item->suggested_price;
-        $productData['weight'] = $item->weight;
-        $productData['tax_class_id'] = 0;
-
-        $new_product_id = $api->create('simple', $attribute_sets[0]['set_id'], $item->sku, $productData);
-
-        $image_type = substr(strrchr($item->image, "."), 1);
-        $filename = "tmp." . $image_type;
-        $path = Mage::getBaseDir('media') . DS . 'import' . DS;
-        if(!is_dir($path)){
-            mkdir($path);
-        }
-        $fullpath =  $path . $filename;
-        file_put_contents($fullpath, fopen($item->image, 'r'));
-
-        $product = Mage::getModel('catalog/product')->load($new_product_id);
-        $product->setMediaGallery(array('images' => array(), 'values' => array()));
-        $product->addImageToMediaGallery($fullpath, array('image', 'small_image', 'thumbnail'), false, false);
-        Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
-
-        $product->save();
-        $this->_redirect('*/*/');
-    }
-
     public function massDeleteAction() {
         /*
         $squidfacilapiIds = $this->getRequest()->getParam('squidfacilapi');
