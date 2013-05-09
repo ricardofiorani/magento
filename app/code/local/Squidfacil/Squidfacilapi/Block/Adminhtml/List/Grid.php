@@ -12,9 +12,16 @@ class Squidfacil_Squidfacilapi_Block_Adminhtml_List_Grid extends Mage_Adminhtml_
     }
 
     protected function _prepareCollection() {
+        try{
         $collection = Mage::getModel('squidfacilapi/products');
         $this->setCollection($collection);
         return parent::_prepareCollection();
+        } catch(Exception $e){
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+
+            return false;
+            
+        }
     }
 
     protected function _prepareColumns() {
