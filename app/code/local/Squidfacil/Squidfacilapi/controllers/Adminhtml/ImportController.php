@@ -42,6 +42,25 @@ class Squidfacil_Squidfacilapi_Adminhtml_ImportController extends Mage_Adminhtml
 
         $new_product_id = $api->create('simple', $attribute_sets[0]['set_id'], $item->sku, $productData);
 
+        $stockItem = Mage::getModel('cataloginventory/stock_item');
+        $stockItem->loadByProduct( $new_product_id );
+
+        $stockItem->setData('use_config_manage_stock', 1);
+        $stockItem->setData('qty', $item->stock);
+        $stockItem->setData('min_qty', 0);
+        $stockItem->setData('use_config_min_qty', 1);
+        $stockItem->setData('min_sale_qty', 0);
+        $stockItem->setData('use_config_max_sale_qty', 1);
+        $stockItem->setData('max_sale_qty', 0);
+        $stockItem->setData('use_config_max_sale_qty', 1);
+        $stockItem->setData('is_qty_decimal', 0);
+        $stockItem->setData('backorders', 0);
+        $stockItem->setData('notify_stock_qty', 0);
+        $stockItem->setData('is_in_stock', 1);
+        $stockItem->setData('tax_class_id', 0);
+
+        $stockItem->save();
+        
         $image_type = substr(strrchr($item->image, "."), 1);
         $filename = "tmp." . $image_type;
         $path = Mage::getBaseDir('media') . DS . 'import' . DS;

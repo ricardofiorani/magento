@@ -22,8 +22,7 @@ otherwise, the product will not be available in frontend.
 
 To-do List
 ----------
-1. Product stock.
-2. Freight calculator Webservice integration
-3. Mass action for importing products
-4. Order Webservice integration
-5. Get the HTTP posts and update product info
+1. Freight calculator Webservice integration
+2. Mass action for importing products
+3. Order Webservice integration
+4. Get the HTTP posts and update product info
