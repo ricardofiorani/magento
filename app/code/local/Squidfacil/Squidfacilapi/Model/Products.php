@@ -37,7 +37,11 @@ class Squidfacil_Squidfacilapi_Model_Products extends Varien_Data_Collection
         }
 
         // calculate totals
-        $this->_totalRecords = $this->products->count();
+        if (version_compare(phpversion(), '5.3', '<')) {
+            $this->_totalRecords = count($this->products->children());
+        } else {
+            $this->_totalRecords = $this->products->count();
+        }
         $this->_setIsLoaded();
 
         // paginate and add items
