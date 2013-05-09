@@ -60,7 +60,7 @@ class Squidfacil_Squidfacilapi_Adminhtml_ImportController extends Mage_Adminhtml
         $stockItem->setData('tax_class_id', 0);
 
         $stockItem->save();
-        
+
         $image_type = substr(strrchr($item->image, "."), 1);
         $filename = "tmp." . $image_type;
         $path = Mage::getBaseDir('media') . DS . 'import' . DS;
@@ -68,7 +68,19 @@ class Squidfacil_Squidfacilapi_Adminhtml_ImportController extends Mage_Adminhtml
             mkdir($path);
         }
         $fullpath =  $path . $filename;
-        file_put_contents($fullpath, fopen($item->image, 'r'));
+
+        $ch = curl_init ($item->image);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
+        $raw=curl_exec($ch);
+        curl_close ($ch);
+        if(file_exists($fullpath)){
+            unlink($fullpath);
+        }
+        $fp = fopen($fullpath,'x');
+        fwrite($fp, $raw);
+        fclose($fp);
 
         $product = Mage::getModel('catalog/product')->load($new_product_id);
         $product->setMediaGallery(array('images' => array(), 'values' => array()));
