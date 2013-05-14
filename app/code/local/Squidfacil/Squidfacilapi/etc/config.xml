@@ -8,6 +8,25 @@
 */
 -->
 <config>
+    <!--
+    <default>
+        <carriers>
+            <Squidfacil>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>squidfacilapi/carrier_ShippingMethod</model>
+                <name>SquidFacil</name>
+                <title>Squid Fácil</title>
+                <specificerrmsg>
+                    This shipping method is currently unavailable.
+                    If you would like to ship using this shipping
+                    method, please contact us.
+                </specificerrmsg>
+                <handling_type>F</handling_type>
+            </Squidfacil>
+        </carriers>
+    </default>
+    -->
     <modules>
         <Squidfacil_Squidfacilapi>
             <version>0.1.0</version>
@@ -101,6 +120,16 @@
                 <class>Squidfacil_Squidfacilapi_Model</class>
                 <resourceModel></resourceModel>
             </squidfacilapi>
+            <shipping>
+                <rewrite>
+                    <shipping>Squidfacil_Shipping_Model_Shipping</shipping>
+                </rewrite>
+            </shipping>
+            <sales>
+                <rewrite>
+                    <quote_address_rate>Squidfacil_Shipping_Model_Quote_Address_Rate</quote_address_rate>
+                </rewrite>
+            </sales>
         </models>
         <resources>
             <squidfacilapi_setup>
