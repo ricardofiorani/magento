@@ -29,7 +29,7 @@
     -->
     <modules>
         <Squidfacil_Squidfacilapi>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Squidfacil_Squidfacilapi>
     </modules>
     <frontend>
