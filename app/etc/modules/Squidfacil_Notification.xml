@@ -2,16 +2,16 @@
 <!-- 
 /**
  * @category   Squidfacil
- * @package    Squidfacil_Shipping
+ * @package    Squidfacil_Notification
  * @author     Squidfacil
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  -->
 <config>
     <modules>
-        <Squidfacil_Shipping>
+        <Squidfacil_Notification>
             <active>true</active>
             <codePool>local</codePool>
-        </Squidfacil_Shipping>
+        </Squidfacil_Notification>
     </modules>
 </config> 

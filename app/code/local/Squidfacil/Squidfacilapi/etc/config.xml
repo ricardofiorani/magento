@@ -34,13 +34,13 @@
     </modules>
     <frontend>
         <routers>
-            <squidfacilapi>
+            <notification>
                 <use>standard</use>
                 <args>
-                    <module>Squidfacil_Squidfacilapi</module>
-                    <frontName>squidfacilapi</frontName>
+                    <module>Squidfacil_Notification</module>
+                    <frontName>notification</frontName>
                 </args>
-            </squidfacilapi>
+            </notification>
         </routers>
         <layout>
             <updates>

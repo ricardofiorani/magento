@@ -35,7 +35,7 @@ class Squidfacil_Shipping_Model_Shipping extends Mage_Shipping_Model_Shipping {
             $carrier = new Squidfacil_Shipping_Model_Carrier_Abstract();
             $carrier->setCode('squidfacil_'.strtolower($transportadora->nome));
             foreach($transportadora->servicos->children() as $service){
-               //print_r($service);
+                //print_r($service);
                 $method = new Mage_Shipping_Model_Rate_Result_Method();
                 $method->setCarrier((string)$transportadora->nome);
                 $method->setCarrierTitle((string)$transportadora->nome);
