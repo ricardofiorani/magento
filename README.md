@@ -17,8 +17,9 @@ Installation
 
 Update Instructions
 -------------------
-Remove the module folder at app/local/squidfacil
-Copy/Upload the app folder over your installation directory 
+Remove the module folder at app/local/squidfacil.
+
+Copy/Upload the app folder over your installation directory.
 
 Warning
 -------
