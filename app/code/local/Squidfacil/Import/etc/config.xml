@@ -45,7 +45,7 @@
         <layout>
             <updates>
                 <import>
-                    <file>import.xml</file>
+                    <file>squidfacil.xml</file>
                 </import>
             </updates>
         </layout>
@@ -109,7 +109,7 @@
         <layout>
             <updates>
                 <import>
-                    <file>import.xml</file>
+                    <file>squidfacil.xml</file>
                 </import>
             </updates>
         </layout>

@@ -1,14 +1,8 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <squidfacilapi_adminhtml_list_index>
+    <import_adminhtml_list_index>
         <reference name="content">
-            <block template="squidfacil/list.phtml" type="squidfacilapi/adminhtml_list" name="list" />
+            <block template="squidfacil/list.phtml" type="import/adminhtml_list" name="list" />
         </reference>
-    </squidfacilapi_adminhtml_list_index>
-<!--    <squidfacilapi_adminhtml_import_index>
-        <reference name="content">
-            <block template="squidfacil/import.phtml" type="squidfacilapi/adminhtml_import_form" name="import" />
-        </reference>
-    </squidfacilapi_adminhtml_import_index>
--->
+    </import_adminhtml_list_index>
 </layout>
