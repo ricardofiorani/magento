@@ -9,9 +9,9 @@
  -->
 <config>
     <modules>
-        <Squidfacil_Notification>
+        <SquidFacil_Notification>
             <active>true</active>
             <codePool>local</codePool>
-        </Squidfacil_Notification>
+        </SquidFacil_Notification>
     </modules>
 </config> 

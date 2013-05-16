@@ -9,9 +9,9 @@
  -->
 <config>
     <modules>
-        <Squidfacil_Shipping>
+        <SquidFacil_Shipping>
             <active>true</active>
             <codePool>local</codePool>
-        </Squidfacil_Shipping>
+        </SquidFacil_Shipping>
     </modules>
 </config> 
