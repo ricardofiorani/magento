@@ -1,5 +1,5 @@
 <?php
-class Squidfacil_Squidfacilapi_Model_Products extends Varien_Data_Collection
+class Squidfacil_Import_Model_Products extends Varien_Data_Collection
 {
     protected $products;
     
@@ -64,7 +64,7 @@ class Squidfacil_Squidfacilapi_Model_Products extends Varien_Data_Collection
             if ($isPaginated && ($cnt < $from || $cnt > $to)) {
                 continue;
             }
-            $object = new Squidfacil_Squidfacilapi_Model_Product();
+            $object = new Squidfacil_Import_Model_Product();
             $object->addData(array(
                 'sku' => (string)$produto->sku,
                 'category' => (string)$produto->categoria,

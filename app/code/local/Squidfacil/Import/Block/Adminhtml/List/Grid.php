@@ -1,10 +1,10 @@
 <?php
 
-class Squidfacil_Squidfacilapi_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_Widget_Grid {
+class Squidfacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_Widget_Grid {
 
     public function __construct() {
         parent::__construct();
-        $this->setId('squidfacilapiGrid');
+        $this->setId('importGrid');
         $this->setDefaultSort('sku');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
@@ -13,7 +13,7 @@ class Squidfacil_Squidfacilapi_Block_Adminhtml_List_Grid extends Mage_Adminhtml_
 
     protected function _prepareCollection() {
         try{
-            $collection = Mage::getModel('squidfacilapi/products');
+            $collection = Mage::getModel('import/products');
             $this->setCollection($collection);
             return parent::_prepareCollection();
         } catch(Exception $e){
@@ -24,7 +24,7 @@ class Squidfacil_Squidfacilapi_Block_Adminhtml_List_Grid extends Mage_Adminhtml_
 
     protected function _prepareColumns() {
         $this->addColumn('sku', array(
-            'header' => Mage::helper('squidfacilapi')->__('SKU'),
+            'header' => Mage::helper('import')->__('SKU'),
             'align' => 'right',
             'width' => '50px',
             'index' => 'sku',
@@ -32,34 +32,34 @@ class Squidfacil_Squidfacilapi_Block_Adminhtml_List_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('title', array(
-            'header' => Mage::helper('squidfacilapi')->__('Title'),
+            'header' => Mage::helper('import')->__('Title'),
             'align' => 'left',
             'index' => 'title',
             'filter' => false
         ));
 
         $this->addColumn('category', array(
-            'header' => Mage::helper('squidfacilapi')->__('Category'),
+            'header' => Mage::helper('import')->__('Category'),
             'align' => 'left',
             'index' => 'category',
             'filter' => false
         ));
         
         $this->addColumn('stock', array(
-            'header' => Mage::helper('squidfacilapi')->__('Stock'),
+            'header' => Mage::helper('import')->__('Stock'),
             'align' => 'left',
             'index' => 'stock',
             'filter' => false
         ));
 
         $this->addColumn('action', array(
-            'header' => Mage::helper('squidfacilapi')->__('Action'),
+            'header' => Mage::helper('import')->__('Action'),
             'width' => '100',
             'type' => 'action',
             'getter' => 'getSku',
             'actions' => array(
                 array(
-                    'caption' => Mage::helper('squidfacilapi')->__('Import'),
+                    'caption' => Mage::helper('import')->__('Import'),
                     'url' => array('base' => '*/adminhtml_import/'),
                     'field' => 'sku'
                 ),
@@ -75,13 +75,13 @@ class Squidfacil_Squidfacilapi_Block_Adminhtml_List_Grid extends Mage_Adminhtml_
     }
 
     protected function _prepareMassaction() {
-        $this->setMassactionIdField('squidfacilapi_sku');
-        $this->getMassactionBlock()->setFormFieldName('squidfacilapi');
+        $this->setMassactionIdField('import_sku');
+        $this->getMassactionBlock()->setFormFieldName('import');
 
         $this->getMassactionBlock()->addItem('export', array(
-            'label' => Mage::helper('squidfacilapi')->__('Export'),
+            'label' => Mage::helper('import')->__('Export'),
             'url' => $this->getUrl('*/*/massExport'),
-            'confirm' => Mage::helper('squidfacilapi')->__('Are you sure?')
+            'confirm' => Mage::helper('import')->__('Are you sure?')
         ));
 
         return $this;

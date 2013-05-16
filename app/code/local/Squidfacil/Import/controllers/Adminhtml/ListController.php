@@ -1,10 +1,10 @@
 <?php
 
-class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_Controller_Action {
+class Squidfacil_Import_Adminhtml_ListController extends Mage_Adminhtml_Controller_Action {
     
     protected function _initAction() {
         $this->loadLayout()
-                ->_setActiveMenu('squidfacilapi/list')
+                ->_setActiveMenu('import/list')
                 ->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 
         return $this;
@@ -22,18 +22,18 @@ class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_C
 
     public function massDeleteAction() {
         /*
-        $squidfacilapiIds = $this->getRequest()->getParam('squidfacilapi');
-        if (!is_array($squidfacilapiIds)) {
+        $importIds = $this->getRequest()->getParam('import');
+        if (!is_array($importIds)) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select item(s)'));
         } else {
             try {
-                foreach ($squidfacilapiIds as $squidfacilapiId) {
-                    $squidfacilapi = Mage::getModel('squidfacilapi/squidfacilapi')->load($squidfacilapiId);
-                    $squidfacilapi->delete();
+                foreach ($importIds as $importId) {
+                    $import = Mage::getModel('import/import')->load($importId);
+                    $import->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                         Mage::helper('adminhtml')->__(
-                                'Total of %d record(s) were successfully deleted', count($squidfacilapiIds)
+                                'Total of %d record(s) were successfully deleted', count($importIds)
                         )
                 );
             } catch (Exception $e) {
@@ -48,20 +48,20 @@ class Squidfacil_Squidfacilapi_Adminhtml_ListController extends Mage_Adminhtml_C
 
     public function massStatusAction() {
         /*
-        $squidfacilapiIds = $this->getRequest()->getParam('squidfacilapi');
-        if (!is_array($squidfacilapiIds)) {
+        $importIds = $this->getRequest()->getParam('import');
+        if (!is_array($importIds)) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Please select item(s)'));
         } else {
             try {
-                foreach ($squidfacilapiIds as $squidfacilapiId) {
-                    $squidfacilapi = Mage::getSingleton('squidfacilapi/squidfacilapi')
-                            ->load($squidfacilapiId)
+                foreach ($importIds as $importId) {
+                    $import = Mage::getSingleton('import/import')
+                            ->load($importId)
                             ->setStatus($this->getRequest()->getParam('status'))
                             ->setIsMassupdate(true)
                             ->save();
                 }
                 $this->_getSession()->addSuccess(
-                        $this->__('Total of %d record(s) were successfully updated', count($squidfacilapiIds))
+                        $this->__('Total of %d record(s) were successfully updated', count($importIds))
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

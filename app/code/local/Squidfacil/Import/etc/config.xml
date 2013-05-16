@@ -2,7 +2,7 @@
 <!-- 
 /**
 * @category   Squidfacil
-* @package    Squidfacil_Squidfacilapi
+* @package    Squidfacil_Import
 * @author     ModuleCreator
 * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
@@ -14,7 +14,7 @@
             <Squidfacil>
                 <active>1</active>
                 <sallowspecific>0</sallowspecific>
-                <model>squidfacilapi/carrier_ShippingMethod</model>
+                <model>import/carrier_ShippingMethod</model>
                 <name>SquidFacil</name>
                 <title>Squid Fácil</title>
                 <specificerrmsg>
@@ -28,9 +28,9 @@
     </default>
     -->
     <modules>
-        <Squidfacil_Squidfacilapi>
+        <Squidfacil_Import>
             <version>0.1.1</version>
-        </Squidfacil_Squidfacilapi>
+        </Squidfacil_Import>
     </modules>
     <frontend>
         <routers>
@@ -44,41 +44,41 @@
         </routers>
         <layout>
             <updates>
-                <squidfacilapi>
-                    <file>squidfacilapi.xml</file>
-                </squidfacilapi>
+                <import>
+                    <file>import.xml</file>
+                </import>
             </updates>
         </layout>
     </frontend>
     <admin>
         <routers>
-            <squidfacilapi>
+            <import>
                 <use>admin</use>
                 <args>
-                    <module>Squidfacil_Squidfacilapi</module>
-                    <frontName>squidfacilapi</frontName>
+                    <module>Squidfacil_Import</module>
+                    <frontName>import</frontName>
                 </args>
-            </squidfacilapi>
+            </import>
         </routers>
     </admin>
     <adminhtml>
         <menu>
-            <squidfacilapi module="squidfacilapi">
+            <import module="import">
                 <title>Squid Fácil</title>
                 <sort_order>99999</sort_order>               
                 <children>
-                    <items module="squidfacilapi">
+                    <items module="import">
                         <title>List Products</title>
                         <sort_order>0</sort_order>
-                        <action>squidfacilapi/adminhtml_list</action>
+                        <action>import/adminhtml_list</action>
                     </items>
-                    <config module="squidfacilapi">
+                    <config module="import">
                         <title>Settings</title>
                         <sort_order>1</sort_order>
                         <action>adminhtml/system_config/edit/section/squidfacil</action>
                     </config>
                 </children>
-            </squidfacilapi>
+            </import>
         </menu>
         <acl>
             <resources>
@@ -87,10 +87,10 @@
                 </all>
                 <admin>
                     <children>
-                        <Squidfacil_Squidfacilapi>
-                            <title>Squidfacilapi Module</title>
+                        <Squidfacil_Import>
+                            <title>Import Module</title>
                             <sort_order>10</sort_order>
-                        </Squidfacil_Squidfacilapi>
+                        </Squidfacil_Import>
                         <system>
                             <children>
                                 <config>
@@ -108,18 +108,18 @@
         </acl>
         <layout>
             <updates>
-                <squidfacilapi>
-                    <file>squidfacilapi.xml</file>
-                </squidfacilapi>
+                <import>
+                    <file>import.xml</file>
+                </import>
             </updates>
         </layout>
     </adminhtml>   
     <global>
         <models>
-            <squidfacilapi>
-                <class>Squidfacil_Squidfacilapi_Model</class>
+            <import>
+                <class>Squidfacil_Import_Model</class>
                 <resourceModel></resourceModel>
-            </squidfacilapi>
+            </import>
             <shipping>
                 <rewrite>
                     <shipping>Squidfacil_Shipping_Model_Shipping</shipping>
@@ -132,34 +132,34 @@
             </sales>
         </models>
         <resources>
-            <squidfacilapi_setup>
+            <import_setup>
                 <setup>
-                    <module>Squidfacil_Squidfacilapi</module>
+                    <module>Squidfacil_Import</module>
                 </setup>
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </squidfacilapi_setup>
-            <squidfacilapi_write>
+            </import_setup>
+            <import_write>
                 <connection>
                     <use>core_write</use>
                 </connection>
-            </squidfacilapi_write>
-            <squidfacilapi_read>
+            </import_write>
+            <import_read>
                 <connection>
                     <use>core_read</use>
                 </connection>
-            </squidfacilapi_read>
+            </import_read>
         </resources>
         <blocks>
-            <squidfacilapi>
-                <class>Squidfacil_Squidfacilapi_Block</class>
-            </squidfacilapi>
+            <import>
+                <class>Squidfacil_Import_Block</class>
+            </import>
         </blocks>
         <helpers>
-            <squidfacilapi>
-                <class>Squidfacil_Squidfacilapi_Helper</class>
-            </squidfacilapi>
+            <import>
+                <class>Squidfacil_Import_Helper</class>
+            </import>
         </helpers>
     </global>
 </config>

@@ -1,24 +1,24 @@
 <?php
 
-class Squidfacil_Squidfacilapi_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action {
+class Squidfacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action {
 
     public function indexAction(){
         $sku = $this->getRequest()->getParam('sku');
-        $model = Mage::getModel('squidfacilapi/products');
+        $model = Mage::getModel('import/products');
         $item = $model->getItemByColumnValue('sku', $sku);
         
         $this->_title($item->title);
         $this->_title($this->__('System'))->_title($this->__('My Account'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('squidfacilapi/import');
-        $this->_addContent($this->getLayout()->createBlock('squidfacilapi/adminhtml_import'));
+        $this->_setActiveMenu('import/import');
+        $this->_addContent($this->getLayout()->createBlock('import/adminhtml_import'));
         $this->renderLayout();
     }
     
     public function saveAction(){
         $sku = $this->getRequest()->getParam('sku');
-        $model = Mage::getModel('squidfacilapi/products');
+        $model = Mage::getModel('import/products');
         $item = $model->getItemByColumnValue('sku', $sku);
 
         $api = new Mage_Catalog_Model_Product_Api();

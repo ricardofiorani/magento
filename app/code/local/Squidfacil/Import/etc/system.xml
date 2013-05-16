@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <tabs>
-        <squidfacil translate="label" module="squidfacilapi">
+        <squidfacil translate="label" module="import">
             <label>Squid Fácil</label>
             <sort_order>100</sort_order>
         </squidfacil>
     </tabs>
     <sections>
-        <squidfacil translate="label" module="squidfacilapi">
+        <squidfacil translate="label" module="import">
             <label>Settings</label>
             <tab>squidfacil</tab>
             <sort_order>1000</sort_order>
@@ -15,7 +15,7 @@
             <show_in_website>0</show_in_website>
             <show_in_store>0</show_in_store>
             <groups>
-                <squidfacil_group translate="label" module="squidfacilapi">
+                <squidfacil_group translate="label" module="import">
                     <label>Squidfacil Settings</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1000</sort_order>

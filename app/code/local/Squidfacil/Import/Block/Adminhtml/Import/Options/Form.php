@@ -1,6 +1,6 @@
 <?php
 
-class Squidfacil_Squidfacilapi_Block_Adminhtml_Import_Options_Form extends Mage_Adminhtml_Block_Widget_Form
+class Squidfacil_Import_Block_Adminhtml_Import_Options_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 
     protected function _prepareForm()
