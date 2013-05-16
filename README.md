@@ -15,6 +15,11 @@ Installation
 3. Fill the configuration with your email and token
 4. Import the products.
 
+Update Instructions
+-------------------
+Remove the module folder at app/local/squidfacil
+Copy/Upload the app folder over your installation directory 
+
 Warning
 -------
 Do not forget to add a category and set it as active before importing the products,
