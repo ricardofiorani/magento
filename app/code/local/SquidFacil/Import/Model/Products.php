@@ -78,7 +78,7 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
                 'height' => $produto->altura_embalagem,
                 'width' => $produto->largura_embalagem,
                 'depth' => $produto->profundidade_embalagem,
-                'image' => $produto->imagem_1
+                'image' => $produto->imagem_principal
             ));
             $this->addItem($object);
         }

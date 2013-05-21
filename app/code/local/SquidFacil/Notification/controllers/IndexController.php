@@ -3,6 +3,24 @@ class SquidFacil_Notification_IndexController extends Mage_Core_Controller_Front
 {
     public function indexAction()
     {
-        Mage::log($this->getRequest()->getParams());
+        $externalProduct = Mage::getModel('import/Product');
+        $externalProduct->getBySku($this->getRequest()->getParam('sku'));
+        $product = Mage::getModel('catalog/product');
+        $id = $product->getIdBySku($this->getRequest()->getParam('sku'));
+        if($id && $externalProduct){
+            $product->load($id);
+            $product->setName($externalProduct->title);
+            $product->setDescription($externalProduct->description);
+            $product->setShortDescription($externalProduct->short_description);
+            $product->save();
+            
+            $stockItem = Mage::getModel('cataloginventory/stock_item');
+            $stockItem->loadByProduct($id);
+            
+            $stockItem->setQty($externalProduct->getStock());
+            $stockItem->save();
+        } else {
+            Mage::log("ignorando produto ".$this->getRequest()->getParam('sku'));
+        }
     }
 }
