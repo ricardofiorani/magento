@@ -2,7 +2,7 @@
 <layout version="0.1.0">
     <import_adminhtml_list_index>
         <reference name="content">
-            <block template="squidfacil/list.phtml" type="import/adminhtml_list" name="list" />
+            <block type="import/adminhtml_list" name="list" />
         </reference>
     </import_adminhtml_list_index>
 </layout>
