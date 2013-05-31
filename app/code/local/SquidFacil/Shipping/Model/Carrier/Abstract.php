@@ -11,7 +11,7 @@ class SquidFacil_Shipping_Model_Carrier_Abstract extends Mage_Shipping_Model_Car
     }
     
 
-    public function collectRates(\Mage_Shipping_Model_Rate_Request $request) {        
+    public function collectRates(Mage_Shipping_Model_Rate_Request $request) {        
         return $this->_result;
     }
     
