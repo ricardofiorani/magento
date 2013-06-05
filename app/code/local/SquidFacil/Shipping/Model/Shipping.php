@@ -28,23 +28,25 @@ class SquidFacil_Shipping_Model_Shipping extends Mage_Shipping_Model_Shipping {
         curl_close($ch);
 
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
-        
-        $root = $xml->children();
-        $transportadoras = $root[1];
-        foreach ($transportadoras as $transportadora) {
-            $carrier = new SquidFacil_Shipping_Model_Carrier_Abstract();
-            $carrier->setCode('squidfacil_'.strtolower($transportadora->nome));
-            foreach($transportadora->servicos->children() as $service){
-                //print_r($service);
-                $method = new Mage_Shipping_Model_Rate_Result_Method();
-                $method->setCarrier((string)$transportadora->nome);
-                $method->setCarrierTitle((string)$transportadora->nome);
-                $method->setMethod(strtolower((string)$service->nome));
-                $method->setMethodTitle((string)$service->nome);
-                $method->setPrice((float)$service->valor);
-                $carrier->setRate($method);
+
+        if ($xml) {
+            $root = $xml->children();
+            $transportadoras = $root[1];
+            foreach ($transportadoras as $transportadora) {
+                $carrier = new SquidFacil_Shipping_Model_Carrier_Abstract();
+                $carrier->setCode('squidfacil_' . strtolower($transportadora->nome));
+                foreach ($transportadora->servicos->children() as $service) {
+                    //print_r($service);
+                    $method = new Mage_Shipping_Model_Rate_Result_Method();
+                    $method->setCarrier((string) $transportadora->nome);
+                    $method->setCarrierTitle((string) $transportadora->nome);
+                    $method->setMethod(strtolower((string) $service->nome));
+                    $method->setMethodTitle((string) $service->nome);
+                    $method->setPrice((float) $service->valor);
+                    $carrier->setRate($method);
+                }
+                $this->getResult()->append($carrier->collectRates($request));
             }
-            $this->getResult()->append($carrier->collectRates($request));
         }
         return $this;
     }
