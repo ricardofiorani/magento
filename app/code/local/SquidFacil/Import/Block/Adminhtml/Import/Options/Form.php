@@ -18,14 +18,28 @@ class SquidFacil_Import_Block_Adminhtml_Import_Options_Form extends Mage_Adminht
             )
         );
         
-        $fieldset->addField('sku', 'hidden', array(
-                'name'  => 'sku',
-                'label' => Mage::helper('adminhtml')->__('Category'),
-                'title' => Mage::helper('adminhtml')->__('Category'),
-                'required' => true,
-                'value' => $this->getRequest()->get('sku')
-            )
-        );
+        $sku = $this->getRequest()->get('sku');
+        $this->getRequest()->isDispatched();
+        $c = 0;
+        if($sku){
+            $fieldset->addField('sku['.$c.']', 'hidden', array(
+                    'name'  => 'sku[]',
+                    'required' => true,
+                    'value' => $this->getRequest()->get('sku')
+                )
+            );
+            $c++;
+        } else {
+            foreach($this->getRequest()->get('import') as $key => $item){
+                $fieldset->addField('sku['.($c).']', 'hidden', array(
+                        'name'  => 'sku[]',
+                        'required' => true,
+                        'value' => $item
+                    )
+                );
+                $c++;
+            }
+        }
         
         $form->setAction($this->getUrl('*/adminhtml_import/save'));
         $form->setMethod('post');

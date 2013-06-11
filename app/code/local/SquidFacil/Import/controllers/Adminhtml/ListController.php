@@ -20,30 +20,13 @@ class SquidFacil_Import_Adminhtml_ListController extends Mage_Adminhtml_Controll
                 ->renderLayout();
     }
 
-    public function massDeleteAction() {
-        /*
-        $importIds = $this->getRequest()->getParam('import');
-        if (!is_array($importIds)) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select item(s)'));
-        } else {
-            try {
-                foreach ($importIds as $importId) {
-                    $import = Mage::getModel('import/import')->load($importId);
-                    $import->delete();
-                }
-                Mage::getSingleton('adminhtml/session')->addSuccess(
-                        Mage::helper('adminhtml')->__(
-                                'Total of %d record(s) were successfully deleted', count($importIds)
-                        )
-                );
-            } catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            }
-        }
-         * 
-         */
-        $this->_getSession()->addError("Not yet implemented");
-        $this->_redirect('*/*/index');
+    public function massImportAction() {
+        $sku = $this->getRequest()->getParam('sku');
+
+        $this->loadLayout();
+        $this->_setActiveMenu('import/import');
+        $this->_addContent($this->getLayout()->createBlock('import/adminhtml_import'));
+        $this->renderLayout();
     }
 
     public function massStatusAction() {
