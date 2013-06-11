@@ -4,11 +4,11 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
 
     public function indexAction(){
         $sku = $this->getRequest()->getParam('sku');
-        $model = Mage::getModel('import/products');
-        $item = $model->getItemByColumnValue('sku', $sku);
+        //$model = Mage::getModel('import/products');
+        //$item = $model->getItemByColumnValue('sku', $sku);
         
-        $this->_title($item->title);
-        $this->_title($this->__('System'))->_title($this->__('My Account'));
+        //$this->_title($item->title);
+        //$this->_title($this->__('System'))->_title($this->__('My Account'));
 
         $this->loadLayout();
         $this->_setActiveMenu('import/import');
@@ -18,8 +18,8 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
     
     public function saveAction(){
         $sku = $this->getRequest()->getParam('sku');
-        $model = Mage::getModel('import/products');
-        $item = $model->getItemByColumnValue('sku', $sku);
+        $model = Mage::getModel('import/product');
+        $item = $model->getBySku($sku);
 
         $api = new Mage_Catalog_Model_Product_Api();
 

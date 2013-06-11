@@ -3,12 +3,22 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
 {
     protected $products;
     
-    public function __construct(){
+    public function __construct($param){
+        $this->_pageSize = 20;
+        $this->_curPage = (int)$param['page'];
+        
+        $sku_list = array();
+        $collection = Mage::getModel('catalog/product')->getCollection();
+        foreach($collection as $product){
+            $sku_list[] = $product->getSku();
+        }
+                
         $parametros = array(
             'email' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_email',Mage::app()->getStore()),
             'token' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_token',Mage::app()->getStore()),
-//            'limite' => $pagesize,
-//            'pagina' => $pagenumber
+            'limite' => $this->getPageSize(),
+            'pagina' => $this->_curPage,
+            'ignorar' => $sku_list
         );
 
         $ch = curl_init();
@@ -18,6 +28,7 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parametros));
         $response = curl_exec($ch);
+
         curl_close($ch);
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
         //$xml = new SimpleXMLElement($response, LIBXML_NOCDATA);
@@ -28,6 +39,7 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
             throw new Exception("Invalid Credentials");
         }
         $this->products = $produtos;
+        $this->_totalRecords = (int)$root[2]->total*$this->_pageSize;
     }
     
     public function loadData($printQuery = false, $logQuery = false)
@@ -36,34 +48,9 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
             return $this;
         }
 
-        // calculate totals
-        if (version_compare(phpversion(), '5.3', '<')) {
-            $this->_totalRecords = count($this->products->children());
-        } else {
-            $this->_totalRecords = $this->products->count();
-        }
         $this->_setIsLoaded();
 
-        // paginate and add items
-        $from = ($this->getCurPage() - 1) * $this->getPageSize();
-        $to = $from + $this->getPageSize() - 1;
-        $isPaginated = $this->getPageSize() > 0;
-
-        $cnt = 0;
-        $sku_list = array();
-        $collection = Mage::getModel('catalog/product')->getCollection();
-        foreach($collection as $product){
-            $sku_list[] = $product->getSku();
-        }
-
         foreach ($this->products as $produto) {
-            if(in_array($produto->sku, $sku_list)){
-                continue;
-            }
-            $cnt++;
-            if ($isPaginated && ($cnt < $from || $cnt > $to)) {
-                continue;
-            }
             $object = new SquidFacil_Import_Model_Product();
             $object->addData(array(
                 'sku' => (string)$produto->sku,
@@ -82,7 +69,6 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
             ));
             $this->addItem($object);
         }
-
         return $this;
     }
     

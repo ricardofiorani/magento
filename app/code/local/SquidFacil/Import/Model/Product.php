@@ -10,11 +10,9 @@ class SquidFacil_Import_Model_Product extends Varien_Object {
             'token' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_token',Mage::app()->getStore()),
             'sku' => $sku
         );
-        
-        var_dump($parametros);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://squidfacil/webservice/produtos/produtos.php");
+        curl_setopt($ch, CURLOPT_URL, "https://www.squidfacil.com.br/webservice/produtos/produtos.php");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -22,7 +20,6 @@ class SquidFacil_Import_Model_Product extends Varien_Object {
         $response = curl_exec($ch);
         curl_close($ch);
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
-        //$xml = new SimpleXMLElement($response, LIBXML_NOCDATA);
         $root = $xml->children();
         $produtos = $root[1];
         $c = 0;
@@ -43,9 +40,9 @@ class SquidFacil_Import_Model_Product extends Varien_Object {
                 'height' => $produto->altura_embalagem,
                 'width' => $produto->largura_embalagem,
                 'depth' => $produto->profundidade_embalagem,
-                'image' => $produto->imagem_1
+                'image' => $produto->imagem_principal
         ));
-        return true;
+        return $this;
     }
 }
 ?>

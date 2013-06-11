@@ -13,16 +13,19 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
 
     protected function _prepareCollection() {
         try{
-            $collection = Mage::getModel('import/products');
+            $page = ($this->getRequest()->getParam('page'))>0?$this->getRequest()->getParam('page'):1;
+            $collection = Mage::getModel('import/products', array('page' => $page));
             $this->setCollection($collection);
-            return parent::_prepareCollection();
+            parent::_prepareCollection();
+            
+            return $this;
         } catch(Exception $e){
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             return false;
         }
     }
 
-    protected function _prepareColumns() {
+    protected function _prepareColumns() {        
         $this->addColumn('sku', array(
             'header' => Mage::helper('import')->__('SKU'),
             'align' => 'right',
@@ -75,12 +78,12 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
     }
 
     protected function _prepareMassaction() {
-        $this->setMassactionIdField('import_sku');
+        $this->setMassactionIdField('sku');
         $this->getMassactionBlock()->setFormFieldName('import');
-
-        $this->getMassactionBlock()->addItem('export', array(
-            'label' => Mage::helper('import')->__('Export'),
-            'url' => $this->getUrl('*/*/massExport'),
+        $this->getMassactionBlock()->setUseSelectAll(false);
+        $this->getMassactionBlock()->addItem('import', array(
+            'label' => Mage::helper('import')->__('Import'),
+            'url' => $this->getUrl('*/*/massImport'),
             'confirm' => Mage::helper('import')->__('Are you sure?')
         ));
 
