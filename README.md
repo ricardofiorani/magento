@@ -8,6 +8,7 @@ our Webservice and display the products inside the Magento backend, so the
 system administrator can import our products, and also its responsible to keep 
 the product stock and information updated.
 
+
 Installation
 ------------
 1. Copy this app folder over your project
@@ -26,8 +27,7 @@ Warning
 Do not forget to add a category and set it as active before importing the products,
 otherwise, the product will not be available in frontend.
 
+
 To-do List
 ----------
-1. Get the HTTP posts and update product info
-2. Mass action for importing products
-3. Order Webservice integration
+1. Order Webservice integration
