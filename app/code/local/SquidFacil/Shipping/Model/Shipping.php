@@ -12,37 +12,34 @@ class SquidFacil_Shipping_Model_Shipping extends Mage_Shipping_Model_Shipping {
         );
         $items = $request->getData('all_items');
         foreach ($items as $item) {
-            $parametros['produtos'][] = array(
+            $parametros['products'][] = array(
                 'sku' => $item->getSku(),
-                'quantidade' => $item->getQty()
+                'quantity' => $item->getQty()
             );
         }
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://www.squidfacil.com.br/webservice/frete/frete.php");
+        curl_setopt($ch, CURLOPT_URL, "https://www.squidfacil.com.br/webservice/freight/freight.php");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parametros));
         $response = curl_exec($ch);
         curl_close($ch);
-
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         if ($xml) {
             $root = $xml->children();
-            $transportadoras = $root[1];
-            foreach ($transportadoras as $transportadora) {
+            foreach ($root->carrier as $externalCarrier) {
                 $carrier = new SquidFacil_Shipping_Model_Carrier_Abstract();
-                $carrier->setCode('squidfacil_' . strtolower($transportadora->nome));
-                foreach ($transportadora->servicos->children() as $service) {
-                    //print_r($service);
+                $carrier->setCode('squidfacil_' . strtolower($externalCarrier->name));
+                foreach ($externalCarrier->service as $service) {
                     $method = new Mage_Shipping_Model_Rate_Result_Method();
-                    $method->setCarrier((string) $transportadora->nome);
-                    $method->setCarrierTitle((string) $transportadora->nome);
-                    $method->setMethod(strtolower((string) $service->nome));
-                    $method->setMethodTitle((string) $service->nome);
-                    $method->setPrice((float) $service->valor);
+                    $method->setCarrier((string) $externalCarrier->name);
+                    $method->setCarrierTitle((string) $externalCarrier->name);
+                    $method->setMethod(strtolower((string) $service->name));
+                    $method->setMethodTitle((string) $service->name);
+                    $method->setPrice((float) $service->value);
                     $carrier->setRate($method);
                 }
                 $this->getResult()->append($carrier->collectRates($request));

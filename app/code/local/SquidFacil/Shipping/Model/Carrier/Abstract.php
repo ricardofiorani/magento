@@ -6,7 +6,7 @@ class SquidFacil_Shipping_Model_Carrier_Abstract extends Mage_Shipping_Model_Car
     protected $_code;
     protected $_result;
     
-    function __construct($_result) {
+    function __construct() {
         $this->_result = new Mage_Shipping_Model_Rate_Result();
     }
     
