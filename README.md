@@ -1,9 +1,9 @@
-Squid Fácil Magento API
+Squid Fácil Magento Module
 =======
 
 Introduction
 ------------
-This is the Squid Fácil Webservice API module. This Magento module connects to
+This is the Squid Fácil Webservice Module. This Magento module connects to
 our Webservice and display the products inside the Magento backend, so the 
 system administrator can import our products, and also its responsible to keep 
 the product stock and information updated.
