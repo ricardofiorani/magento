@@ -28,6 +28,10 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parametros));
         $response = curl_exec($ch);
+        
+        if($errno = curl_errno($ch)) {
+            throw new Exception('Curl error: ' . curl_error($ch));
+        }
 
         curl_close($ch);
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
