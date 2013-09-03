@@ -12,7 +12,7 @@ class SquidFacil_Import_Model_Product extends Varien_Object {
         );
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://www.squidfacil.com.br/webservice/produtos/produtos.php");
+        curl_setopt($ch, CURLOPT_URL, "http://squidfacil/webservice/produtos/produtos.php");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

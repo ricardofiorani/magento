@@ -37,6 +37,7 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
             $productData['short_description'] = $item->short_description;
 
             $productData['price'] = $item->suggested_price;
+            $productData['msrp'] = $item->suggested_price;
             $productData['weight'] = $item->weight;
             $productData['tax_class_id'] = 0;
 
