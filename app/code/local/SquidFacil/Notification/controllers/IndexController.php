@@ -13,6 +13,7 @@ class SquidFacil_Notification_IndexController extends Mage_Core_Controller_Front
             if($product->getPrice() <= $externalProduct->price){
                 $product->setPrice($externalProduct->suggested_price);
             }
+            $product->setWeight($externalProduct->weight);
             $product->setMsrp($externalProduct->suggested_price);
             $product->setDescription($externalProduct->description);
             $product->setShortDescription($externalProduct->short_description);
