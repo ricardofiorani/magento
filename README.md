@@ -12,9 +12,12 @@ the product stock and information updated.
 Installation
 ------------
 1. Copy this app folder over your project
-2. There will be a new tab in your admin backend
-3. Fill the configuration with your email and token
-4. Import the products.
+2. Make sure you refreshed or disabled your cache
+3. There will be a new tab in your admin backend
+4. Logout and Login again so you refresh your permissions
+5. Fill the configuration with your email and token
+6. Import the products.
+7. Update your store URL in our platform so your store receive update notifications (usually the address is http://yourstore.com/notification)
 
 Update Instructions
 -------------------
