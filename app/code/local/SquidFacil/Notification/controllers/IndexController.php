@@ -8,6 +8,7 @@ class SquidFacil_Notification_IndexController extends Mage_Core_Controller_Front
         $product = Mage::getModel('catalog/product');
         $id = $product->getIdBySku($this->getRequest()->getParam('sku'));
         if($id && $externalProduct){
+            Mage::app()->setCurrentStore(Mage::getModel('core/store')->load(Mage_Core_Model_App::ADMIN_STORE_ID));
             $product->load($id);
             $product->setName($externalProduct->title);
             if($product->getPrice() <= $externalProduct->price){

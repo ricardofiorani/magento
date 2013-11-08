@@ -5,12 +5,14 @@ class SquidFacil_Import_Model_Product extends Varien_Object {
     }
     
     public function getBySku($sku){
+        if(!$sku){
+            throw new Exception("Invalid Product SKU");
+        }
         $parametros = array(
             'email' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_email',Mage::app()->getStore()),
             'token' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_token',Mage::app()->getStore()),
             'sku' => $sku
         );
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://www.squidfacil.com.br/webservice/produtos/produtos.php");
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -20,6 +22,9 @@ class SquidFacil_Import_Model_Product extends Varien_Object {
         $response = curl_exec($ch);
         curl_close($ch);
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
+        if(!$xml){
+            throw new Exception("Unable to parse response");
+        }
         $root = $xml->children();
         $produtos = $root[1];
         $c = 0;
