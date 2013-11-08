@@ -40,8 +40,18 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
                         </squidfacil_token>
+                        <squidfacil_text>
+                            <label>Notify Url: </label>
+                            <comment>
+                                http://www.yourstore.com/notification
+                            </comment>
+                            <frontend_type>note</frontend_type>
+                            <sort_order>91</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </squidfacil_text>
                     </fields>
                 </squidfacil_group>
             </groups>
