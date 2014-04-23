@@ -1,21 +1,19 @@
 <?php
 
-class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action {
+class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Controller_Action
+{
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $sku = $this->getRequest()->getParam('sku');
-        //$model = Mage::getModel('import/products');
-        //$item = $model->getItemByColumnValue('sku', $sku);
-        //$this->_title($item->title);
-        //$this->_title($this->__('System'))->_title($this->__('My Account'));
-
         $this->loadLayout();
         $this->_setActiveMenu('import/import');
         $this->_addContent($this->getLayout()->createBlock('import/adminhtml_import'));
         $this->renderLayout();
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
         $sku_list = $this->getRequest()->getParam('sku');
         foreach ($sku_list as $sku) {
             $model = Mage::getModel('import/product');
@@ -70,7 +68,7 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
             }
             $fullpath = $path . $filename;
 
-            $ch = curl_init($item->image);
+            $ch = curl_init('http:' . $item->image);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
@@ -94,5 +92,3 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
     }
 
 }
-
-?>

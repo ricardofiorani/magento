@@ -1,51 +1,43 @@
 <?php
+
 class SquidFacil_Import_Model_Products extends Varien_Data_Collection
 {
+
     protected $products;
-    
-    public function __construct($param){
-        $this->_pageSize = 20;
-        $this->_curPage = (int)$param['page'];
-        
+
+    public function __construct($param)
+    {
+        $this->_curPage = (int) $param['page'];
+
         $sku_list = array();
         $collection = Mage::getModel('catalog/product')->getCollection();
-        foreach($collection as $product){
+        foreach ($collection as $product) {
             $sku_list[] = $product->getSku();
         }
-                
-        $parametros = array(
-            'email' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_email',Mage::app()->getStore()),
-            'token' => Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_token',Mage::app()->getStore()),
-            'limite' => $this->getPageSize(),
-            'pagina' => $this->_curPage,
-            'ignorar' => $sku_list
-        );
+
+        $username = Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_email', Mage::app()->getStore());
+        $password = Mage::getStoreConfig('squidfacil/squidfacil_group/squidfacil_token', Mage::app()->getStore());
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://www.squidfacil.com.br/webservice/produtos/produtos.php");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($parametros));
-        $response = curl_exec($ch);
-        
-        if($errno = curl_errno($ch)) {
+        curl_setopt($ch, CURLOPT_URL, "http://api.squidfacil.com.br/pt_BR/product?page=" . $this->_curPage);
+        curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $jsonResponse = curl_exec($ch);
+        $response = json_decode($jsonResponse);
+        if ($jsonResponse === false) {
             throw new Exception('Curl error: ' . curl_error($ch));
         }
-
-        curl_close($ch);
-        $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
-        //$xml = new SimpleXMLElement($response, LIBXML_NOCDATA);
-        $root = $xml->children();
-        $produtos = $root[1];
-        $c = 0;
-        if((int)$root[0]->codigo != 0){
-            throw new Exception("Invalid Credentials");
+        if ($response->status == 401 || $response->status == 403 || empty($response)) {
+            throw new Exception($response->status . ' : ' . $response->detail . ' - Please check your API Token');
         }
+        curl_close($ch);
+
+        $produtos = $response->_embedded->product;
         $this->products = $produtos;
-        $this->_totalRecords = (int)$root[2]->total*$this->_pageSize;
+        $this->_totalRecords = $response->total_items;
+        $this->_pageSize = $response->page_size;
     }
-    
+
     public function loadData($printQuery = false, $logQuery = false)
     {
         if ($this->isLoaded()) {
@@ -53,35 +45,35 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
         }
 
         $this->_setIsLoaded();
-
         foreach ($this->products as $produto) {
             $object = new SquidFacil_Import_Model_Product();
             $object->addData(array(
-                'sku' => (string)$produto->sku,
-                'category' => (string)$produto->categoria,
-                'title' => (string)$produto->nome,
-                'stock' => (int)$produto->estoque,
-                'description' => (string)$produto->descricao,
-                'short_description' => 'vazio',
-                'weight' => $produto->peso+$produto->peso_embalagem,
-                'price' => $produto->preco,
-                'suggested_price' => $produto->preco_sugerido,
-                'height' => $produto->altura_embalagem,
-                'width' => $produto->largura_embalagem,
-                'depth' => $produto->profundidade_embalagem,
-                'image' => $produto->imagem_principal
+                'sku' => (string) $produto->sku,
+                'category' => (string) $produto->category,
+                'title' => (string) $produto->name,
+                'url_key' => (string) $produto->slug,
+                'stock' => (int) $produto->inventory,
+                'description' => (string) $produto->description,
+                'short_description' => (string) $produto->shortDescription,
+                'weight' => $produto->totalWeight,
+                'price' => $produto->price,
+                'suggested_price' => $produto->suggestedPrice,
+                'height' => $produto->totalHeight,
+                'width' => $produto->totalWidth,
+                'length' => $produto->totalLength,
+                'image' => $produto->image
             ));
             $this->addItem($object);
         }
         return $this;
     }
-    
-    public function addFieldToFilter($field, $cond, $type = 'and'){
+
+    public function addFieldToFilter($field, $cond, $type = 'and')
+    {
         if (!is_array($cond)) {
             return $this->addCallbackFilter($field, $cond, $type, array($this, 'filterCallbackEq'));
         }
     }
-    
 
     /**
      * Set a custom filter with callback
@@ -100,16 +92,16 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
     public function addCallbackFilter($field, $value, $type, $callback, $isInverted = false)
     {
         $this->_filters[$this->_filterIncrement] = array(
-            'field'       => $field,
-            'value'       => $value,
-            'is_and'      => 'and' === $type,
-            'callback'    => $callback,
+            'field' => $field,
+            'value' => $value,
+            'is_and' => 'and' === $type,
+            'callback' => $callback,
             'is_inverted' => $isInverted
         );
         $this->_filterIncrement++;
         return $this;
     }
-    
+
     /**
      * Callback method for 'eq' fancy filter
      *
@@ -124,5 +116,13 @@ class SquidFacil_Import_Model_Products extends Varien_Data_Collection
     {
         return $filterValue == $row[$field];
     }
+
+    public function debug($var)
+    {
+        echo '<pre>';
+        var_dump($var);
+        echo '</pre>';
+        die();
+    }
+
 }
-?>

@@ -1,31 +1,48 @@
 <?php
 
-class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_Widget_Grid {
+class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_Widget_Grid
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->setId('importGrid');
         $this->setDefaultSort('sku');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
         $this->setFilterVisibility(false);
+        $this->setDefaultLimit(25);
+        //$this->setTemplate ('/widget/squid_custom_header.phtml');
+
     }
 
-    protected function _prepareCollection() {
-        try{
-            $page = ($this->getRequest()->getParam('page'))>0?$this->getRequest()->getParam('page'):1;
+    protected function _prepareCollection()
+    {
+        try {
+            $page = ($this->getRequest()->getParam('page')) > 0 ? $this->getRequest()->getParam('page') : 1;
             $collection = Mage::getModel('import/products', array('page' => $page));
             $this->setCollection($collection);
             parent::_prepareCollection();
-            
+
             return $this;
-        } catch(Exception $e){
+        } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             return false;
         }
     }
 
-    protected function _prepareColumns() {        
+    protected function _prepareColumns()
+    {
+
+        $this->addColumn('image', array(
+            'header' => Mage::helper('import')->__('Image'),
+            'align' => 'center',
+            'width' => '50px',
+            'index' => 'image',
+            'filter' => false,
+            'renderer' => 'SquidFacil_Import_Block_Adminhtml_List_Renderer_Image',
+        ));
+
         $this->addColumn('sku', array(
             'header' => Mage::helper('import')->__('SKU'),
             'align' => 'right',
@@ -47,37 +64,25 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
             'index' => 'category',
             'filter' => false
         ));
-        
+
         $this->addColumn('stock', array(
             'header' => Mage::helper('import')->__('Stock'),
             'align' => 'left',
             'index' => 'stock',
-            'filter' => false
-        ));
-
-        $this->addColumn('action', array(
-            'header' => Mage::helper('import')->__('Action'),
-            'width' => '100',
-            'type' => 'action',
-            'getter' => 'getSku',
-            'actions' => array(
-                array(
-                    'caption' => Mage::helper('import')->__('Import'),
-                    'url' => array('base' => '*/adminhtml_import/'),
-                    'field' => 'sku'
-                ),
-            ),
             'filter' => false,
-            'sortable' => false,
-            'index' => 'stores',
-            'is_system' => true,
         ));
 
+        $this->addColumn('importLink', array(
+            'header' => Mage::helper('import')->__('Action'),
+            'getter' => 'getSku',
+            'renderer' => 'SquidFacil_Import_Block_Adminhtml_List_Renderer_Importer',
+        ));
 
         return parent::_prepareColumns();
     }
 
-    protected function _prepareMassaction() {
+    protected function _prepareMassaction()
+    {
         $this->setMassactionIdField('sku');
         $this->getMassactionBlock()->setFormFieldName('import');
         $this->getMassactionBlock()->setUseSelectAll(false);
@@ -90,8 +95,15 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
         return $this;
     }
 
-    public function getRowUrl($row) {
-        return $this->getUrl('*/*/import', array('sku' => $row->getSku()));
+    public function getRowUrl($row)
+    {
+        $collection = Mage::getModel('catalog/product')->getCollection();
+        foreach ($collection as $product) {
+            if ($product->getSku() == $row->getSku()) {
+                return false;
+            }
+        }
+        return $this->getUrl('*/adminhtml_import/', array('sku' => $row->getSku()));
     }
 
 }
