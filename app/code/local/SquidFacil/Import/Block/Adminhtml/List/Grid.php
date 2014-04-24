@@ -12,8 +12,36 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
         $this->setSaveParametersInSession(true);
         $this->setFilterVisibility(false);
         $this->setDefaultLimit(25);
-        //$this->setTemplate ('/widget/squid_custom_header.phtml');
+    }
 
+    protected function _prepareMassactionColumn()
+    {
+        $columnId = 'massaction';
+        $massactionColumn = $this->getLayout()->createBlock('adminhtml/widget_grid_column')->setData(
+                array(
+                    'index' => $this->getMassactionIdField(),
+                    'filter_index' => $this->getMassactionIdFilter(),
+                    'type' => 'massaction',
+                    'name' => $this->getMassactionBlock()->getFormFieldName(),
+                    'align' => 'center',
+                    'is_system' => true,
+                    'renderer' => 'SquidFacil_Import_Block_Adminhtml_List_Renderer_Checkbox',
+                )
+        );
+
+        if ($this->getNoFilterMassactionColumn()) {
+            $massactionColumn->setData('filter', false);
+        }
+
+        $massactionColumn->setSelected($this->getMassactionBlock()->getSelected())
+                ->setGrid($this)
+                ->setId($columnId);
+
+        $oldColumns = $this->_columns;
+        $this->_columns = array();
+        $this->_columns[$columnId] = $massactionColumn;
+        $this->_columns = array_merge($this->_columns, $oldColumns);
+        return $this;
     }
 
     protected function _prepareCollection()
@@ -39,8 +67,9 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
             'align' => 'center',
             'width' => '50px',
             'index' => 'image',
-            'filter' => false,
             'renderer' => 'SquidFacil_Import_Block_Adminhtml_List_Renderer_Image',
+            'filter' => false,
+            'sortable' => false,
         ));
 
         $this->addColumn('sku', array(
@@ -48,21 +77,24 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
             'align' => 'right',
             'width' => '50px',
             'index' => 'sku',
-            'filter' => false
+            'filter' => false,
+            'sortable' => false,
         ));
 
         $this->addColumn('title', array(
             'header' => Mage::helper('import')->__('Title'),
             'align' => 'left',
             'index' => 'title',
-            'filter' => false
+            'filter' => false,
+            'sortable' => false,
         ));
 
         $this->addColumn('category', array(
             'header' => Mage::helper('import')->__('Category'),
             'align' => 'left',
             'index' => 'category',
-            'filter' => false
+            'filter' => false,
+            'sortable' => false,
         ));
 
         $this->addColumn('stock', array(
@@ -70,12 +102,15 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
             'align' => 'left',
             'index' => 'stock',
             'filter' => false,
+            'sortable' => false,
         ));
 
         $this->addColumn('importLink', array(
             'header' => Mage::helper('import')->__('Action'),
             'getter' => 'getSku',
             'renderer' => 'SquidFacil_Import_Block_Adminhtml_List_Renderer_Importer',
+            'filter' => false,
+            'sortable' => false,
         ));
 
         return parent::_prepareColumns();
@@ -89,7 +124,7 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
         $this->getMassactionBlock()->addItem('import', array(
             'label' => Mage::helper('import')->__('Import'),
             'url' => $this->getUrl('*/*/massImport'),
-            'confirm' => Mage::helper('import')->__('Are you sure?')
+            'confirm' => Mage::helper('import')->__('Are you sure?'),
         ));
 
         return $this;
