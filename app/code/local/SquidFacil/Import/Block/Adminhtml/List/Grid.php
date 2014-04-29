@@ -132,13 +132,19 @@ class SquidFacil_Import_Block_Adminhtml_List_Grid extends Mage_Adminhtml_Block_W
 
     public function getRowUrl($row)
     {
-        $collection = Mage::getModel('catalog/product')->getCollection();
-        foreach ($collection as $product) {
-            if ($product->getSku() == $row->getSku()) {
-                return false;
-            }
-        }
-        return $this->getUrl('*/adminhtml_import/', array('sku' => $row->getSku()));
+//        $collection = Mage::getModel('catalog/product')->getCollection();
+        return $row->getSquidfacilUrl();
+//        foreach ($collection as $product) {
+//            if ($product->getSku() == $row->getSku()) {
+//                return false;
+//            }
+//        }
+        //return $this->getUrl('*/adminhtml_import/', array('sku' => $row->getSku()));
+    }
+
+    public function getRowspan($item, $column)
+    {
+        parent::getRowspan($item, $column);
     }
 
 }

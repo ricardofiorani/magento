@@ -60,35 +60,62 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
 
             $stockItem->save();
 
-            $image_type = substr(strrchr($item->image, "."), 1);
-            $filename = "tmp." . $image_type;
-            $path = Mage::getBaseDir('media') . DS . 'import' . DS;
-            if (!is_dir($path)) {
-                mkdir($path);
-            }
-            $fullpath = $path . $filename;
-
-            $ch = curl_init('http:' . $item->image);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
-            $raw = curl_exec($ch);
-            curl_close($ch);
-            if (file_exists($fullpath)) {
-                unlink($fullpath);
-            }
-            $fp = fopen($fullpath, 'x');
-            fwrite($fp, $raw);
-            fclose($fp);
-
             $product = Mage::getModel('catalog/product')->load($new_product_id);
             $product->setMediaGallery(array('images' => array(), 'values' => array()));
-            $product->addImageToMediaGallery($fullpath, array('image', 'small_image', 'thumbnail'), false, false);
-            Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
 
+            $imagesArray = $this->getImagesArray($item);
+            foreach ($imagesArray as $imageToImport) {
+                $imported = $this->importImage($imageToImport);
+                $product->addImageToMediaGallery($imported, array('image', 'small_image', 'thumbnail'), false, false);
+            }
+
+            Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
             $product->save();
         }
         $this->_redirect('*/adminhtml_list');
+    }
+
+    public function getImagesArray($item)
+    {
+        $return = array();
+        $image = $item->getData('image');
+        $images = $item->getData('images');
+
+        if (!empty($image)) {
+            $return[] = $item->image;
+        }
+
+        if (!empty($images)) {
+            foreach ($item->images as $image) {
+                $return[] = $image->href;
+            }
+        }
+
+        return array_reverse($return);
+    }
+
+    public function importImage($image)
+    {
+        $image_type = substr(strrchr($image, "."), 1);
+        $filename = "tmp." . $image_type;
+        $path = Mage::getBaseDir('media') . DS . 'import' . DS;
+        if (!is_dir($path)) {
+            mkdir($path);
+        }
+        $fullpath = $path . $filename;
+        $ch = curl_init('http:' . $image);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+        $raw = curl_exec($ch);
+        curl_close($ch);
+        if (file_exists($fullpath)) {
+            unlink($fullpath);
+        }
+        $fp = fopen($fullpath, 'x');
+        fwrite($fp, $raw);
+        fclose($fp);
+        return $fullpath;
     }
 
 }
