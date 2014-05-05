@@ -8,25 +8,6 @@
 */
 -->
 <config>
-    <!--
-    <default>
-        <carriers>
-            <SquidFacil>
-                <active>1</active>
-                <sallowspecific>0</sallowspecific>
-                <model>import/carrier_ShippingMethod</model>
-                <name>SquidFacil</name>
-                <title>Squid Fácil</title>
-                <specificerrmsg>
-                    This shipping method is currently unavailable.
-                    If you would like to ship using this shipping
-                    method, please contact us.
-                </specificerrmsg>
-                <handling_type>F</handling_type>
-            </SquidFacil>
-        </carriers>
-    </default>
-    -->
     <modules>
         <SquidFacil_Import>
             <version>0.1.1</version>
@@ -67,14 +48,19 @@
                 <title>Squid Fácil</title>
                 <sort_order>99999</sort_order>               
                 <children>
-                    <items module="import">
+                    <listProduct module="import">
                         <title>List Products</title>
                         <sort_order>0</sort_order>
                         <action>import/adminhtml_list</action>
-                    </items>
+                    </listProduct>
+                    <listOrder module="sales" >
+                        <title>List orders</title>
+                        <sort_order>1</sort_order>
+                        <action>adminhtml/sales_order</action>
+                    </listOrder>
                     <config module="import">
                         <title>Settings</title>
-                        <sort_order>1</sort_order>
+                        <sort_order>2</sort_order>
                         <action>adminhtml/system_config/edit/section/squidfacil</action>
                     </config>
                 </children>

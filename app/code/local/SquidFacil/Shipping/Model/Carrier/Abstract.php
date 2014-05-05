@@ -43,5 +43,3 @@ class SquidFacil_Shipping_Model_Carrier_Abstract extends Mage_Shipping_Model_Car
         
     }    
 }
-
-?>

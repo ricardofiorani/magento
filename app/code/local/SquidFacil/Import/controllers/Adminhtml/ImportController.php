@@ -5,7 +5,6 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
 
     public function indexAction()
     {
-        $sku = $this->getRequest()->getParam('sku');
         $this->loadLayout();
         $this->_setActiveMenu('import/import');
         $this->_addContent($this->getLayout()->createBlock('import/adminhtml_import'));
@@ -117,5 +116,7 @@ class SquidFacil_Import_Adminhtml_ImportController extends Mage_Adminhtml_Contro
         fclose($fp);
         return $fullpath;
     }
+    
+    
 
 }

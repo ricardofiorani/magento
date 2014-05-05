@@ -18,4 +18,3 @@ class SquidFacil_Shipping_Model_Quote_Address_Rate extends Mage_Sales_Model_Quot
         }
     }
 }
-?>
